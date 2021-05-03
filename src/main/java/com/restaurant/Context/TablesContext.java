@@ -12,6 +12,14 @@ public class TablesContext implements Serializable {
 
     }
 
+    public Long getTableId() {
+        return tableId;
+    }
+
+    public void setTableId(Long tableId) {
+        this.tableId = tableId;
+    }
+
     public int getSeatCount() {
         return seatCount;
     }

@@ -36,27 +36,39 @@ public class TablesServiceImpl implements TablesService {
     @Override
     @Transactional
     public Long addTables(TablesContext tableContext) {
-        Long id = (tablesRepo.findMaxId() == null) ? 1 : tablesRepo.findMaxId() + 1;
 
-        Tables table = new Tables(
-                id,
-                tableContext.getSeatCount(),
-                false
-        );
+        Tables table = getTableById(tableContext.getTableId());
+        if(table != null) {
+
+            
+                table.setDeleted(false);
+                return table.getId();
+
+        }
+        table = new Tables();
+        table.setId(tableContext.getTableId());
+        table.set_status(false);
+        table.setDeleted(false);
+        table.setSeatCount(tableContext.getSeatCount());
         tablesRepo.save(table);
-
-        return id;
+        return table.getId();
     }
 
     @Override
     @Transactional
     public Long deleteTable(Long id) {
 
-        tablesRepo.deleteById(id);
+        Tables table = tablesRepo.findTableById(id);
+
+        table.setDeleted(true);
+        tablesRepo.save(table);
         return id;
-
-
     }
-
-
 }
+
+
+
+
+
+
+

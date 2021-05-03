@@ -60,7 +60,17 @@ public class Tables  implements Serializable {
         this.seatCount = seatCount;
     }
 
+    public Boolean get_status() {
+        return _status;
+    }
 
+    public Boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
+    }
 
     public Boolean is_status() {
         return _status;

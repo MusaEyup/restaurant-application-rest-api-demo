@@ -32,11 +32,18 @@ public class FoodItemController {
         return foodItemService.getOne(id);
     }
 
+    @GetMapping("/fooditem/{id}")
+    public String getCategoryName(@PathVariable("id") Long id){
+        String s = foodItemService.getCategoryByItemId(id).getName();
+        return foodItemService.getCategoryByItemId(id).getName();
+    }
+
     @PostMapping("/")
     public Long addNewItem1(@RequestBody ItemContext itemContext) {
 
         return foodItemService.addFoodItem(itemContext);
     }
+
 
     @PostMapping("/add")
     public Long addNewItem(@RequestBody ItemContext itemContext) {

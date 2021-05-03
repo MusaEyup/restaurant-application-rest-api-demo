@@ -15,7 +15,7 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public Employee login(Employee employee) {
 
-        Employee user = employeeRepo.findByEmployeeName(employee.getFirstName());
+        Employee user = employeeRepo.findByEmployeeUserName(employee.getFirstName());
         if(user != null
                 && employee.get_password()
                     .equals(user.get_password())){

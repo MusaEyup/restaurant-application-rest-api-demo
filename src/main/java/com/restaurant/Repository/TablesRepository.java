@@ -11,15 +11,13 @@ import java.util.List;
 @Repository
 public interface TablesRepository extends CrudRepository<Tables, Long> {
 
-    @Query(value = "select t from Tables t ")
+    @Query(value = "select t from Tables t where t.deleted = false")
     public List<Tables> findAll();
 
-    @Query(value = "select max(t.id) from Tables t")
-    public Long findMaxId();
 
     @Query(value = "select t from Tables t where t.id = :id")
     public Tables findTableById(@Param("id") Long id);
 
-    @Query(value = "select t from Tables t where t._status = false")
+    @Query(value = "select t from Tables t where t._status = false and t.deleted = false")
     public List<Tables> findAvailableTables();
 }

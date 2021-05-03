@@ -78,4 +78,9 @@ public class FoodItemServiceImpl implements FoodItemService {
         itemRepo.deleteById(id);
         return id;
     }
+
+    @Override
+    public Category getCategoryByItemId(Long id) {
+        return itemRepo.findCategoryByFoodItemId(id);
+    }
 }

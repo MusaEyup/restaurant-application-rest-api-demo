@@ -1,6 +1,7 @@
 package com.restaurant.Service;
 
 import com.restaurant.Context.ItemContext;
+import com.restaurant.Entity.Category;
 import com.restaurant.Entity.FoodItem;
 
 import java.util.List;
@@ -13,4 +14,5 @@ public interface FoodItemService {
     Long addFoodItem(ItemContext itemContext);
     Long updateFoodItem(ItemContext itemContext);
     Long deleteFoodItem(Long id);
+    Category getCategoryByItemId(Long id);
 }

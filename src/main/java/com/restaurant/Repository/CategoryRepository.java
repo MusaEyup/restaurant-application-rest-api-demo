@@ -22,4 +22,6 @@ public interface CategoryRepository extends CrudRepository<Category, Long> {
 
     @Query(value = "select c from Category c where c.id = :id and c.deleted = false")
     Category findCategoryById(@Param("id") Long id);
+
+
 }

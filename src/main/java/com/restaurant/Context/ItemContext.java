@@ -5,23 +5,29 @@ import java.io.Serializable;
 public class ItemContext implements Serializable {
 
     private Long id;
-    private Long foodItemPortionId;
     private float price;
+    private Long foodItemPortionId;
     private float quantity;
     private Long categoryId;
 
     public ItemContext(){
     }
 
-    public ItemContext(Long id, Long foodItemPortionId, float price, float quantity, Long categoryId) {
+    public ItemContext(Long id,   float quantity, Long categoryId) {
         this.id = id;
-        this.foodItemPortionId = foodItemPortionId;
-        this.price = price;
+
+
         this.quantity = quantity;
         this.categoryId = categoryId;
     }
 
-
+    public ItemContext(Long id, float price, Long foodItemPortionId, float quantity, Long categoryId) {
+        this.id = id;
+        this.price = price;
+        this.foodItemPortionId = foodItemPortionId;
+        this.quantity = quantity;
+        this.categoryId = categoryId;
+    }
 
     public Long getId() {
         return id;
@@ -32,13 +38,20 @@ public class ItemContext implements Serializable {
     }
 
 
-
     public float getPrice() {
         return price;
     }
 
     public void setPrice(float price) {
         this.price = price;
+    }
+
+    public Long getFoodItemPortionId() {
+        return foodItemPortionId;
+    }
+
+    public void setFoodItemPortionId(Long foodItemPortionId) {
+        this.foodItemPortionId = foodItemPortionId;
     }
 
     public float getQuantity() {
@@ -58,11 +71,5 @@ public class ItemContext implements Serializable {
         this.categoryId = categoryId;
     }
 
-    public Long getFoodItemPortionId() {
-        return foodItemPortionId;
-    }
 
-    public void setFoodItemPortionId(Long foodItemPortionId) {
-        this.foodItemPortionId = foodItemPortionId;
-    }
 }

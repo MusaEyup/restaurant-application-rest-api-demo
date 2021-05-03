@@ -25,4 +25,7 @@ public interface FoodItemRepository extends CrudRepository<FoodItem, Long> {
     @Query(value = "SELECT f FROM FoodItem f WHERE f.itemName = ?1 AND f.category.id = ?2")
     Optional<FoodItem> findFoodItemByNameAndCategory(String foodName, Long categoryId);
 
+    @Query(value = "SELECT f.category FROM FoodItem  f WHERE f.id = ?1")
+    Category findCategoryByFoodItemId(Long id);
+
 }
