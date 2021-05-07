@@ -40,8 +40,12 @@ public class ImageServiceImpl implements ImageService {
 
     }
 
+    @Override
 
+    public void deleteImageById(Long imageId) {
+        imageRepo.deleteById(imageId);
 
+    }
 
 
 }

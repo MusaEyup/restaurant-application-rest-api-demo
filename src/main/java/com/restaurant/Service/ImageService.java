@@ -11,4 +11,5 @@ import java.io.IOException;
 public interface ImageService {
      Long storeFile(MultipartFile file);
      ItemImages getFile(Long fileId);
+     void deleteImageById(Long imageId);
 }

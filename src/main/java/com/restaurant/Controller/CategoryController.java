@@ -1,5 +1,6 @@
 package com.restaurant.Controller;
 
+import com.restaurant.Context.CategoryContext;
 import com.restaurant.Entity.Category;
 import com.restaurant.Service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,11 @@ public class CategoryController {
     @GetMapping("/{id}")
     public Category getCategoryById(@PathVariable("id") Long id){
         return categoryService.getCategoryById(id);
+    }
+
+    @GetMapping("/getall")
+    public List<CategoryContext> getAllCategoryContext(){
+        return categoryService.getAllCategoryContext();
     }
 
     @GetMapping("/name/{name}")

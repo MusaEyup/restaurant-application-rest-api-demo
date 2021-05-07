@@ -9,6 +9,8 @@ public class ItemContext implements Serializable {
     private Long foodItemPortionId;
     private float quantity;
     private Long categoryId;
+    private Long imageId;
+    private String itemName;
 
     public ItemContext(){
     }
@@ -37,6 +39,13 @@ public class ItemContext implements Serializable {
         this.id = id;
     }
 
+    public String getItemName() {
+        return itemName;
+    }
+
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
+    }
 
     public float getPrice() {
         return price;
@@ -44,6 +53,14 @@ public class ItemContext implements Serializable {
 
     public void setPrice(float price) {
         this.price = price;
+    }
+
+    public Long getImageId() {
+        return imageId;
+    }
+
+    public void setImageId(Long imageId) {
+        this.imageId = imageId;
     }
 
     public Long getFoodItemPortionId() {

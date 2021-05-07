@@ -24,7 +24,8 @@ public class ImageController {
     private ImageService imageService;
 
     @GetMapping("/{fileId:.+}")
-    public ItemImages/*ResponseEntity<Resource>*/ downloadFile(@PathVariable Long fileId, HttpServletRequest request) {
+    public ItemImages downloadFile(@PathVariable Long fileId, HttpServletRequest request) {
+
         // Load file as Resource
         ItemImages itemImages = imageService.getFile(fileId);
         return itemImages;

@@ -22,7 +22,10 @@ public class FoodItemController {
     public List<FoodItem> getAll(){
         return foodItemService.getAllFoodItems();
     }
-
+    @GetMapping("/name/{name}")
+    public List<FoodItem> getAllByName(@PathVariable("name") String name){
+        return foodItemService.getAllFoodItemsByName(name);
+    }
     @GetMapping("/category/{id}")
     public List<FoodItem> getFookItemsByCategory(@PathVariable("id") Long id){
         return foodItemService.getFoodItemsByCategory(id);
@@ -61,4 +64,9 @@ public class FoodItemController {
 
         return foodItemService.deleteFoodItem(id);
     }
+    @PutMapping("/update_details")
+    public Long updateFoodItemDetails(@RequestBody ItemContext itemContext) {
+        return foodItemService.updateFoodItemDetails(itemContext);
+    }
+
 }

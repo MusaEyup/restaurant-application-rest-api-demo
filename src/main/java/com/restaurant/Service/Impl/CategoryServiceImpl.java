@@ -1,5 +1,6 @@
 package com.restaurant.Service.Impl;
 
+import com.restaurant.Context.CategoryContext;
 import com.restaurant.Entity.Category;
 import com.restaurant.Repository.CategoryRepository;
 import com.restaurant.Service.CategoryService;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -44,6 +46,16 @@ public class CategoryServiceImpl implements CategoryService {
     public Long deleteCategoryById(Long id) {
         categoryRepo.deleteById(id);
         return id;
+    }
+
+    @Override
+    public List<CategoryContext> getAllCategoryContext() {
+        List<CategoryContext> categoryContexts = new ArrayList<>();
+
+        categoryRepo.findAll().forEach(category -> {
+            categoryContexts.add(new CategoryContext(category.getId(), category.getName()));
+        });
+        return categoryContexts;
     }
 
 }

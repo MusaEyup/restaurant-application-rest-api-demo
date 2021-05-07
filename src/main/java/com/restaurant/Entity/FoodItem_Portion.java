@@ -26,6 +26,7 @@ public class FoodItem_Portion implements Serializable {
     @OneToMany(mappedBy = "foodItem_Portion")
     private List<FoodItem_Order> foodItemOrder;
 
+    private Boolean deleted;
     public FoodItem_Portion() {
     }
 
@@ -40,6 +41,14 @@ public class FoodItem_Portion implements Serializable {
         this.unitPrice = unitPrice;
         this.foodItem = foodItem;
         this.portion = portion;
+    }
+
+    public Boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
     }
 
     public Long getId() {

@@ -12,17 +12,20 @@ import java.util.List;
 @Repository
 public interface FoodItem_PortionRepository extends CrudRepository<FoodItem_Portion, Long> {
 
-    @Query("SELECT f FROM FoodItem_Portion f WHERE f.id = ?1")
+    @Query("SELECT f FROM FoodItem_Portion f WHERE f.id = ?1 and f.deleted = false")
     FoodItem_Portion findFoodItem_PortionById(Long id);
 
-    @Query("SELECT f FROM FoodItem_Portion f WHERE f.foodItem.itemName = ?1")
+    @Query("SELECT f FROM FoodItem_Portion f WHERE f.foodItem.itemName = ?1 and f.deleted = false")
     List<FoodItem_Portion> findFoodItem_PortionByFoodItemName(String foodName);
 
-    @Query("SELECT f FROM FoodItem_Portion f WHERE f.foodItem.id = ?1")
+    @Query("SELECT f FROM FoodItem_Portion f WHERE f.foodItem.id = ?1 and f.deleted = false")
     List<FoodItem_Portion> findFoodItem_PortionByFoodItemId(Long id);
 
-    @Query("SELECT f.portion FROM FoodItem_Portion f WHERE f.foodItem.id = ?1")
+    @Query("SELECT f.portion FROM FoodItem_Portion f WHERE f.foodItem.id = ?1 and f.deleted = false")
     List<Portion> findPortionsByFoodItemId(Long id);
 
+    @Query("SELECT f FROM FoodItem_Portion f WHERE f.deleted = false")
     List<FoodItem_Portion> findAll();
+
+
 }

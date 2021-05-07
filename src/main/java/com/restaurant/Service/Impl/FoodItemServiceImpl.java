@@ -8,6 +8,7 @@ import com.restaurant.Repository.CategoryRepository;
 import com.restaurant.Repository.FoodItemRepository;
 import com.restaurant.Repository.FoodItem_PortionRepository;
 import com.restaurant.Service.FoodItemService;
+import com.restaurant.Service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,13 +18,18 @@ import java.util.List;
 @Service
 public class FoodItemServiceImpl implements FoodItemService {
 
-    @Autowired
-    FoodItemRepository itemRepo;
+    private final FoodItemRepository itemRepo;
+    private final FoodItem_PortionRepository foodItemPortion;
+    private final CategoryRepository categoryRepo;
+    private final ImageService imageService;
 
     @Autowired
-    private FoodItem_PortionRepository foodItemPortion;
-    @Autowired
-    private CategoryRepository categoryRepo;
+    public FoodItemServiceImpl(FoodItemRepository itemRepo, FoodItem_PortionRepository foodItemPortion, CategoryRepository categoryRepo, ImageService imageService) {
+        this.itemRepo = itemRepo;
+        this.foodItemPortion = foodItemPortion;
+        this.categoryRepo = categoryRepo;
+        this.imageService = imageService;
+    }
 
     @Override
     public List<FoodItem> getAllFoodItems() {
@@ -72,15 +78,47 @@ public class FoodItemServiceImpl implements FoodItemService {
         return foodItem.getId();
     }
 
+
+
+    @Override
+    public Long updateFoodItemDetails(ItemContext itemContext) {
+
+
+        FoodItem foodItem = itemRepo.findFoodItemById(itemContext.getId());
+        if(itemContext.getCategoryId() != 0){
+            Category category = categoryRepo.findCategoryById(itemContext.getCategoryId());
+            foodItem.setCategory(category);
+        }
+        if(itemContext.getItemName() != null){
+            foodItem.setItemName(itemContext.getItemName());
+        }
+        if(itemContext.getImageId() != 0){
+            Long oldImageId = foodItem.getItemImages().getId();
+            foodItem.setItemImages(imageService.getFile(itemContext.getImageId()));
+            imageService.deleteImageById(oldImageId);
+        }
+        itemRepo.save(foodItem);
+        return itemContext.getId();
+    }
     @Override
     @Transactional
     public Long deleteFoodItem(Long id) {
-        itemRepo.deleteById(id);
+
+        FoodItem foodItem = itemRepo.findFoodItemById(id);
+        foodItem.setDeleted(true);
+        itemRepo.save(foodItem);
+
         return id;
     }
 
     @Override
     public Category getCategoryByItemId(Long id) {
         return itemRepo.findCategoryByFoodItemId(id);
+    }
+
+    @Override
+    public List<FoodItem> getAllFoodItemsByName(String name) {
+
+        return itemRepo.findAllByName(name);
     }
 }

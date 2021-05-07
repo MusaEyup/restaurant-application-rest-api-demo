@@ -1,6 +1,7 @@
 package com.restaurant.Service.Impl;
 
 import com.restaurant.Context.FoodItemContext;
+import com.restaurant.Context.FoodItem_PortionContext;
 import com.restaurant.Context.FoodOrderContext;
 import com.restaurant.Context.PortionContext;
 import com.restaurant.Entity.*;
@@ -18,19 +19,21 @@ import java.util.stream.Collectors;
 @Service
 public class FoodItem_PortionServiceImpl implements FoodItem_PortionService {
 
-    @Autowired
-    private FoodItem_PortionRepository foodItem_portionRepository;
-    @Autowired
-    private FoodItemRepository foodItemRepo;
+
+    private final FoodItem_PortionRepository foodItem_portionRepository;
+    private final FoodItemRepository foodItemRepo;
+    private final ImageRepository imageRepo;
+    private final CategoryRepository categoryRepo;
+    private final PortionRepository portionRepo;
 
     @Autowired
-    private ImageRepository imageRepo;
-
-    @Autowired
-    private CategoryRepository categoryRepo;
-
-    @Autowired
-    private PortionRepository portionRepo;
+    public FoodItem_PortionServiceImpl(FoodItem_PortionRepository foodItem_portionRepository, FoodItemRepository foodItemRepo, ImageRepository imageRepo, CategoryRepository categoryRepo, PortionRepository portionRepo) {
+        this.foodItem_portionRepository = foodItem_portionRepository;
+        this.foodItemRepo = foodItemRepo;
+        this.imageRepo = imageRepo;
+        this.categoryRepo = categoryRepo;
+        this.portionRepo = portionRepo;
+    }
 
     @Override
     public FoodItem_Portion getById(Long id) {
@@ -71,21 +74,6 @@ public class FoodItem_PortionServiceImpl implements FoodItem_PortionService {
         foodItem.setCategory(category);
         foodItem.setItemImages(images);
 
-        /*FoodItem foodItem2 = foodItemRepo.findFoodItemByNameAndCategory(foodItem.getItemName(), category.getId()).orElse(null);
-
-        FoodItem oldOne = null;
-        if(foodItem2 != null){
-            if(foodItem2.isDeleted())
-                foodItem2.setDeleted(false);
-            oldOne.setQuantity(foodItemContext.getQuantity());
-            oldOne.set
-             oldOne = foodItemRepo.save(foodItem);
-            *
-        }
-        */
-
-
-
         FoodItem foodItem1 =  foodItemRepo.save(foodItem);
 
         List<FoodItem_Portion> foodItem_portionList = new ArrayList<>();
@@ -102,6 +90,7 @@ public class FoodItem_PortionServiceImpl implements FoodItem_PortionService {
                         portionRepo.findPortionById(portionContext.getId());
 
             foodItemPortion.setPortion(portion);
+            foodItemPortion.setDeleted(false);
             foodItem_portionList.add(foodItemPortion);
         }
         List<Long> Ids = new ArrayList<>();
@@ -111,5 +100,59 @@ public class FoodItem_PortionServiceImpl implements FoodItem_PortionService {
         });
 
         return Ids;
+    }
+
+    @Override
+    @Transactional
+    public List<Long> updateFoodItemPortions(List<FoodItem_PortionContext> contexts) {
+
+
+        List<Long> updatedList = new ArrayList<>();
+
+        FoodItem foodItem = foodItemRepo.findFoodItemById(contexts.get(0).getFoodItemId());
+        foodItem.setQuantity(contexts.get(0).getQuantity());
+        foodItemRepo.save(foodItem);
+        for (int i = 0; i < contexts.size(); i++){
+            FoodItem_Portion foodItem_Portion = null;
+
+            if(contexts.get(i).getId() == 0){
+                foodItem_Portion = new FoodItem_Portion();
+                foodItem_Portion.setFoodItem(foodItemRepo.findFoodItemById(contexts.get(i).getFoodItemId()));
+
+                Portion portion1 = portionRepo.save(new Portion(contexts.get(i).getPortionName(),  contexts.get(i).getRatio()));
+                foodItem_Portion.setPortion(portion1);
+
+            }
+            else{
+                foodItem_Portion = foodItem_portionRepository.findFoodItem_PortionById(contexts.get(i).getId());
+            }
+
+            Portion portion = foodItem_Portion.getPortion();
+
+            if(!contexts.get(i).getPortionName().equals(portion.getName())
+                    || contexts.get(i).getRatio() != portion.getCalculate()){
+                Portion portion1 = portionRepo.save(new Portion(contexts.get(i).getPortionName(),  contexts.get(i).getRatio()));
+                foodItem_Portion.setPortion(portion1);
+            }
+
+
+            foodItem_Portion.setUnitPrice(contexts.get(i).getPrice());
+            foodItem_Portion.setDeleted(false);
+            updatedList.add(foodItem_portionRepository.save(foodItem_Portion).getId());
+        }
+
+
+        return updatedList;
+    }
+
+    @Override
+    @Transactional
+    public Long deleteFoodItemPortionById(Long id) {
+
+        FoodItem_Portion foodItemPortion = foodItem_portionRepository.findFoodItem_PortionById(id);
+        foodItemPortion.setDeleted(true);
+        foodItem_portionRepository.save(foodItemPortion);
+
+        return id;
     }
 }

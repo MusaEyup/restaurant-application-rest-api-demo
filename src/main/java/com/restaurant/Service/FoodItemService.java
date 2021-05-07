@@ -13,6 +13,10 @@ public interface FoodItemService {
     FoodItem getOne(Long id);
     Long addFoodItem(ItemContext itemContext);
     Long updateFoodItem(ItemContext itemContext);
+    Long updateFoodItemDetails(ItemContext itemContext);
+    //Long updateFoodItemImage(ItemContext itemContext);
     Long deleteFoodItem(Long id);
     Category getCategoryByItemId(Long id);
+
+    List<FoodItem> getAllFoodItemsByName(String name);
 }

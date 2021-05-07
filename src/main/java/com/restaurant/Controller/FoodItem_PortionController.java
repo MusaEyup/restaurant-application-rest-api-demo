@@ -1,6 +1,7 @@
 package com.restaurant.Controller;
 
 import com.restaurant.Context.FoodItemContext;
+import com.restaurant.Context.FoodItem_PortionContext;
 import com.restaurant.Entity.FoodItem_Portion;
 import com.restaurant.Entity.Portion;
 import com.restaurant.Service.FoodItem_PortionService;
@@ -45,4 +46,15 @@ public class FoodItem_PortionController {
     public List<Long> saveFoodItem(@RequestBody FoodItemContext foodItemContext){
         return foodItem_portionService.addFoodItemsPortions(foodItemContext);
     }
+
+    @PostMapping("/update")
+    public List<Long> updateFoodItemPortion(@RequestBody List<FoodItem_PortionContext> contexts){
+        return foodItem_portionService.updateFoodItemPortions(contexts);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public Long deleteFoodItemPortionById(@PathVariable("id") Long id){
+        return foodItem_portionService.deleteFoodItemPortionById(id);
+    }
+
 }

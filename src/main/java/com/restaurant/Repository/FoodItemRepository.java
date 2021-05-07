@@ -16,6 +16,11 @@ public interface FoodItemRepository extends CrudRepository<FoodItem, Long> {
     @Query(value = "SELECT f FROM FoodItem f WHERE  f.deleted=false")
     List<FoodItem> findAll();
 
+    @Query(value = "SELECT f FROM FoodItem f WHERE f.itemName like  concat('%',:name,'%') and f.deleted=false")
+    List<FoodItem> findAllByName(@Param("name") String name);
+
+
+
     @Query(value = "SELECT f FROM FoodItem f WHERE f.category.id = ?1 AND f.deleted=false")
     List<FoodItem> findAllByCategory(Long categoryId);
 
@@ -27,5 +32,7 @@ public interface FoodItemRepository extends CrudRepository<FoodItem, Long> {
 
     @Query(value = "SELECT f.category FROM FoodItem  f WHERE f.id = ?1")
     Category findCategoryByFoodItemId(Long id);
+
+
 
 }
